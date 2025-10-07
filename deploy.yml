@@ -1,0 +1,19 @@
+---
+- name: Deploy Flask Scientific Calculator
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Pull latest calculator image
+      command: docker pull pep34/calculator:latest
+
+    - name: Stop old container if running
+      ignore_errors: yes
+      command: docker stop calculator
+
+    - name: Remove old container if exists
+      ignore_errors: yes
+      command: docker rm calculator
+
+    - name: Run new calculator container
+      command: docker run -d -p 5000:5000 --name calculator pep34/calculator:latest
