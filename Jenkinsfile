@@ -47,17 +47,20 @@ pipeline {
 
         stage('Deploy with Ansible') {
             steps {
-                ansiblePlaybook credentialsId: 'AnsibleLocal', playbook: 'deploy.yml', inventory: 'inventory'
+                sh '''
+                    echo "Running Ansible Playbook manually..."
+                    ansible-playbook -i inventory deploy.yml
+                '''
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline completed successfully. Application deployed.'
+            echo 'Pipeline completed successfully — application deployed via Ansible.'
         }
         failure {
-            echo 'Pipeline failed. Check console output for details.'
+            echo 'Pipeline failed. Check Jenkins console for details.'
         }
     }
 }
