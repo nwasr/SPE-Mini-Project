@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Scientific Calculator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+      }
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 350px;
+        text-align: center;
+      }
+      h2 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      input,
+      select,
+      button {
+        margin: 8px 0;
+        padding: 8px;
+        width: 100%;
+      }
+      .result {
+        margin-top: 15px;
+        font-size: 18px;
+        color: green;
+      }
+      .error {
+        margin-top: 15px;
+        color: red;
+      }
+      .btn-clear {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .btn-clear:hover {
+        background-color: #b02a37;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Scientific Calculator</h2>
+      <form method="POST" id="calcForm">
+        <label for="operation">Select Operation:</label>
+        <select name="operation" id="operation" onchange="toggleBase()">
+          <option value="sqrt">Square Root (√x)</option>
+          <option value="factorial">Factorial (x!)</option>
+          <option value="ln">Natural Logarithm (ln(x))</option>
+          <option value="power">Power (x^b)</option>
+        </select>
+
+        <label>Enter Number:</label>
+        <input type="number" name="num" step="any" required />
+
+        <div id="baseInput" style="display: none">
+          <label>Enter Base (b):</label>
+          <input type="number" name="base" step="any" />
+        </div>
+
+        <button type="submit">Calculate</button>
+        <button type="button" class="btn-clear" onclick="clearForm()">
+          Clear
+        </button>
+      </form>
+
+      {% if result %}
+      <div class="result" id="result">{{ result }}</div>
+      {% endif %} {% if error %}
+      <div class="error" id="error">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    <script>
+      function toggleBase() {
+        const operation = document.getElementById("operation").value;
+        const baseInput = document.getElementById("baseInput");
+        baseInput.style.display = operation === "power" ? "block" : "none";
+      }
+
+      function clearForm() {
+        document.getElementById("calcForm").reset();
+        document.getElementById("baseInput").style.display = "none";
+        const resultDiv = document.getElementById("result");
+        const errorDiv = document.getElementById("error");
+        if (resultDiv) resultDiv.innerHTML = "";
+        if (errorDiv) errorDiv.innerHTML = "";
+      }
+
+      toggleBase();
+    </script>
+  </body>
+</html>
